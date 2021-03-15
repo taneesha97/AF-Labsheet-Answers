@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 2</title>
+</head>
+<body>
+    <script type="text/javascript">
+        //=================LAB 2===================================
+        //--------------------------------Q1-----------------------------------------------
+
+        //---------------------------PROMISE---------------------
+
+        function getValue(){
+            let value = 0;
+            return new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    value =10;
+                    resolve(value);
+                },1000);
+            });
+        };
+
+        function getNewValue(value){
+            return new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    resolve(value * 100);
+                },1000);
+            });
+        }
+
+        getValue().then(function (value) {
+            return getNewValue(value);
+        }).then(function (value) {
+            console.log(value);
+        });
+
+
+        /*  let getValue = function(){
+              let value = 0;
+            return new Promise(function (resolve){
+                setTimeout(function() {
+                    value = 10;
+                    resolve(value);
+                },2000);
+              });
+          };
+
+          getValue().then(function(value) {
+              console.log(value);
+              return value + 100;
+          }).then(function (value) {
+              console.log(value);
+              return(4);
+              //return value;
+          }).then(function (value) {
+             value = value + 100;
+             console.log(value);
+          });
+
+          console.log("This typed after")
+
+          //console.log("I trusted you!");
+       */
+
+
+        //==============================q2===============================
+        function Vehicle(type){
+            this.type = type;
+            Vehicle.VehicleCount++;
+        }
+
+        Vehicle.prototype.print = function(){
+            console.log(this.type + " is driving");
+        };
+
+        Vehicle.VehicleCount = 0;
+        console.log(Vehicle.VehicleCount);
+        const vehicle = new Vehicle("Susuki");
+
+        vehicle.print();
+        console.log(Vehicle.VehicleCount);
+
+
+        function Car(type){
+            Vehicle.call(this,type);
+        }
+
+        Car.prototype = Object.create(Vehicle.prototype);
+        Car.prototype.constructor = Car;
+
+        Car.prototype.balanceWheels = function(){
+            console.log("Wheels are balanced");
+        };
+
+        const car = new Car("honda");
+
+        car.print();
+        car.balanceWheels();
+
+
+        //=========================================q4=============================================
+        function getValue(){
+            let value = 0;
+            return new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    value =10;
+                    resolve(value);
+                },1000);
+            });
+        };
+
+        function getNewValue(value){
+            return new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    resolve(value * 100);
+                },1000);
+            });
+        }
+
+        function setValue(value){
+            return value + 1999;
+        }
+
+        async function print() { //asynchronoues function
+            let value = await getValue();
+            value = await getNewValue(value);
+            //value = setValue(value);
+            return value;
+        }
+
+        //In the single line statements no need {} to the arrow function
+        print().then(value => setValue(value)).then(value => console.log(value));
+
+        const person = {
+            organization: 'Science',
+            people: ['John', 'Jane'],
+            print: function () {
+                this.people.forEach(value => {
+                    console.log(value,this.organization);
+                });
+            }
+        };
+
+        person.print();
+
+        //===========================================q5=================================================
+        class Vehicle{
+            static vehicleCount = 0;
+            constructor(type) {
+                this.type = type;
+                Vehicle.vehicleCount++;
+            }
+
+            drive(){
+                console.log(this.type + " vehicle is driving");
+            }
+        }
+
+        let vehicle = new Vehicle("Toyota");
+        vehicle.drive();
+        console.log(Vehicle.vehicleCount);
+
+        class Car extends Vehicle{
+            constructor(type) {
+                super(type);
+            }
+            wheelBalance(){
+                console.log("Wheels are balanced");
+            }
+        }
+
+        let car = new Car("Nissan");
+        car.wheelBalance();
+        car.drive();
+        console.log(Vehicle.vehicleCount);
+
+        //-----getters and setters--------
+
+        class Square{
+            constructor(length) {
+                this.height = length;
+                this.width = length;
+            }
+            //getter not a function.It's act as a property
+            get getArea(){
+                return this.width * this.height;
+            }
+
+            set getArea(value){
+                this.height = Math.sqrt(value);
+                this.width = Math.sqrt(value);
+            }
+            area() {
+                return this.width * this.height;
+            }
+        }
+
+        let square = new Square(5);
+        square.getArea = 64;
+        console.log("Area " + square.getArea);
+        console.log(square);
+
+    </script>
+</body>
+</html>
